@@ -186,8 +186,7 @@ python scripts/prepare_notebook.py --candidate fc           # the other selected
 ```
 
 The team-trained weights (`biomed-x138-division-t3-full-weights`, `biomed-x138-v1284-head-f03`) are Kaggle
-datasets; see [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) for their visibility, and `scripts/train.py` to
-retrain them.
+datasets, published after the competition deadline; `scripts/train.py` retrains them.
 
 ## Experiments / Lessons Learned
 

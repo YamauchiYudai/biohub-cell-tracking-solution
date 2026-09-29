@@ -1,11 +1,12 @@
 # Release checklist
 
-This repository must not be pushed to GitHub before the competition has ended
-(final submission deadline 2026-09-29 23:59 UTC = 2026-09-30 08:59 JST) and the owner has approved the push.
+The GitHub repository is **private**. Pushing to it is allowed (owner approval, 2026-09-30). Making it **public**
+is not allowed before the competition has ended (final submission deadline 2026-09-29 23:59 UTC = 2026-09-30
+08:59 JST) and the private results are filled in.
 
-Status as of 2026-09-30 07:45 JST (merged into the local `main`, not pushed):
+Status as of 2026-09-30 07:45 JST (`main` pushed to the private repository):
 
-- [ ] **Competition finished** - not yet (deadline 08:59 JST): **push is not allowed before it.**
+- [ ] **Competition finished** - not yet (deadline 08:59 JST): **do not make the repository public before it.**
 - [ ] Private LB of both selected submissions and the final rank filled in: README "Competition Result",
       `result.scoring_submission` in `configs/final.yaml`, the header and section 7 of
       `notebooks/solution_writeup.ipynb`, and `docs/results.md` "Final result" (all currently TBD)
@@ -27,13 +28,13 @@ Status as of 2026-09-30 07:45 JST (merged into the local `main`, not pushed):
 - [x] Third-party licenses reviewed (`THIRD_PARTY_NOTICES.md`, `LICENSES/Apache-2.0.txt`)
 - [ ] README reviewed by the owner
 - [x] Teammate approved publication and attribution
-- [ ] Kaggle weight datasets made public, or README notes they are private
-      (`yudaiyamauchi/biomed-x138-division-t3-full-weights`, `yudaiyamauchi/biomed-x138-v1284-head-f03`
-      are private as of 2026-09-29; without them the notebook needs retrained weights from `scripts/train.py`)
-- [ ] git status clean
-- [ ] **User approved git push**
+- [ ] Kaggle weight datasets made public after the deadline (planned by the owner):
+      `yudaiyamauchi/biomed-x138-division-t3-full-weights`, `yudaiyamauchi/biomed-x138-v1284-head-f03`
+- [x] git status clean
+- [x] User approved git push to the private repository (2026-09-30)
+- [ ] **Repository visibility switched to public** (after the competition ends, with the private results filled in)
 
-## Commands to run right before pushing
+## Commands to run before every push and before switching the repository to public
 
 ```bash
 python -m compileall -q src scripts
