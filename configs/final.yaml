@@ -1,0 +1,99 @@
+# Final submission configuration.
+#
+# Final rank and leaderboard scores are shown in one place only: the "Competition Result" table in README.md.
+# `result.final_submission` records which candidate that result belongs to; `notebook.candidate` names the
+# candidate whose code is in notebooks/final_submission.ipynb;
+# `python scripts/prepare_notebook.py --candidate <name>` rewrites the notebook and checks its code-cell
+# SHA-256 against `candidates.<name>.code_sha256`. tests/test_submission.py checks this file against the
+# committed notebook.
+
+result:
+  final_submission: TBD             # a key of `candidates`, set after the private leaderboard is published
+
+competition:
+  slug: biohub-cell-tracking-during-development
+  final_deadline_utc: "2026-09-29T23:59:00Z"
+
+notebook:
+  path: notebooks/final_submission.ipynb
+  candidate: core                   # the confirmed-0.964 core every final-day candidate is built on
+
+# Team-owned settings of the production path (cell-0 environment overrides on top of configs/default.yaml).
+production_env:
+  BIOHUB_X138_RELINK_VARIANT: "b1c"               # jump-aware relink: global translation prior after duplicated frames
+  BIOHUB_SUBMIT_DIVISION_METHOD: "A"              # learned division scorer: T3 3D CNN
+  BIOHUB_SUBMIT_DIVISION_TAU_ADD: "0.3"           # add a gated fork when T3 >= 0.3
+  BIOHUB_SUBMIT_DIVISION_TAU_DEL: "0.01"          # remove a rule-based safe-div fork when T3 < 0.01
+  BIOHUB_SUBMIT_DIVISION_GEOMETRY: "none,none,none,none"
+  BIOHUB_SUBMIT_DIVISION_ADD_GATE: "prob_angle_t2"  # p(P->D2) cached, angle >= 90 deg, sisters separate at t+2
+  BIOHUB_SUBMIT_DIVISION_ADD_CAP: "exempt"        # V5a: learned adds are not limited by safe-div's budget
+  BIOHUB_CACHE_EDGE_THRESHOLD: "0.48"             # upstream 1.0; caches Transformer edges > 0.48 for the gate
+  BIOHUB_OUTPUT_LINEFIT_JUMP_AWARE: "1"           # J2 smoothing
+  BIOHUB_REPAIR_DEADLINE_S: "36000"               # upstream 27000; post-processing deadline inside Kaggle's 12 h
+  BIOHUB_RUN_MODE: "submit"
+
+# Environment switches added by optional edits (see biohub_tracking.kaggle.variants).
+edit_env:
+  frozen_consensus:
+    BIOHUB_OUTPUT_FROZEN_CONSENSUS: "1"
+
+# Kaggle inputs attached to the notebook (besides the competition data).
+inputs:
+  common:
+    - pilkwang/biohub-tracking-support-pack-50ep-v1        # upstream code + primary TemporalUNet3D / Transformer (CC0-1.0)
+    - pilkwang/biohub-temporal-unet3d-seed314159-v1        # second detector seed (CC0-1.0)
+    - pilkwang/biohub-deepcenter-unet3d-center-prior-v1    # DeepCenter centre prior (CC0-1.0)
+    - yudaiyamauchi/biomed-x138-division-t3-full-weights   # T3 division CNN, 3 seeds, all train movies (team)
+  head_public: anvithpothula/biohub-v1284-head-s075        # V1284 coordinate head (CC0-1.0)
+  head_f03: yudaiyamauchi/biomed-x138-v1284-head-f03       # F03 fine-tuned head (team), sha256 checked in cell 4
+
+# Final-day candidates. All but v_add are regenerated from the committed core by `edits`.
+candidates:
+  core:
+    submission_id: 56643954
+    kernel: yudaiyamauchi/biomed-x138-division-s2-j2-v5a-insured
+    public_lb: 0.964
+    edits: []
+    head: head_public
+    code_sha256: bde7ae00cf01c45084f3d641510bf56930538185b5ac049a489972bdbe0f1dd2
+    summary: "S2 + J2 + V5a; J2 falls back to the upstream smoothing on any exception"
+  j2_v1:
+    submission_id: 56632306
+    kernel: yudaiyamauchi/biomed-x138-division-s2-j2-v5a
+    public_lb: 0.964
+    edits: [j2_v1]
+    head: head_public
+    code_sha256: a70173c26b057d59beaf2db21371dfbdf045abaddb052899a46abfefe400bc5e
+    summary: "S2 + J2 + V5a as first submitted (no J2 insurance)"
+  f03:
+    submission_id: 56662358
+    kernel: yudaiyamauchi/biomed-x138-division-s2-j2-v5a-f03
+    public_lb: pending
+    edits: [j2_v1, head_f03]
+    head: head_f03
+    code_sha256: fa3ac9b5219def609fdfa555cf60854bbabe469014e60c11f1f9569c302c782c
+    summary: "j2_v1 + V1284 head fine-tuned with recipe F03"
+  fc:
+    submission_id: 56663004
+    kernel: yudaiyamauchi/biomed-x138-division-s2-j2-v5a-fc
+    public_lb: pending
+    edits: [frozen_consensus]
+    head: head_public
+    code_sha256: 53b3f4813549073cbca605e949b48088a938e83fe3e64db1efc6a3b6e75c68c4
+    summary: "core + frozen-frame coordinate consensus"
+  fc_f03:
+    submission_id: 56663011
+    kernel: yudaiyamauchi/biomed-x138-division-s2-j2-v5a-fc-f03
+    public_lb: pending
+    edits: [frozen_consensus, head_f03]
+    head: head_f03
+    code_sha256: 35b9a01a16c4d0a0b34f696b3dcc626ef46c7b8dacaaa30cad4b6f05ffe91076
+    summary: "core + frozen-frame coordinate consensus + F03 head"
+  v_add:
+    submission_id: 56665741
+    kernel: null            # teammate's kernel; pass its notebook with --source
+    public_lb: pending
+    edits: null
+    head: null
+    code_sha256: null       # fill in from `prepare_notebook.py --candidate v_add --source <notebook>` output
+    summary: "S2 + J2 + V-add (teammate): extra nuclei from a high-resolution detection head (3 um dedup, +5 % node cap)"
