@@ -27,14 +27,14 @@ lever in its own right (see [failure_analysis.md](failure_analysis.md#node-count
 ```mermaid
 flowchart TD
     A["3D + t microscopy movie"] --> B["Detection<br/>dual-seed TemporalUNet3D, 8-view TTA<br/>threshold 0.965, low-score peaks dumped (>= 0.3)"]
-    B --> C["V1284 coordinate head<br/>|shift| < 2 um per detection<br/>(public head, or team F03 fine-tune)"]
+    B --> C["V1284 coordinate head<br/>|shift| < 2 um per detection<br/>(team F03 fine-tune in fc_f03, public head in fc)"]
     C --> D["Association Transformer<br/>edge probabilities t -> t+1, forward + reverse time,<br/>harmonic fusion; edges > 0.48 cached"]
     D --> E["ILP<br/>selects nodes / edges (appearance 0, disappearance 2, division 1.2)"]
     E --> F["Motion relink + b1c (team)<br/>Hungarian re-assignment; global-translation prior<br/>on jumps after duplicated frames"]
     F --> G["Re-admission, gap closing, low-score gap filling<br/>(DeepCenter veto)"]
     G --> H["Rule-based safe division<br/>+ T3 division hook (team)"]
     H --> I["Short-track filter"]
-    I --> J["J2 line-fit smoothing (team)<br/>(+ frozen-frame consensus: final-day candidate)"]
+    I --> J["J2 line-fit smoothing (team)<br/>+ frozen-frame consensus (team)"]
     J --> K["Cell lineage graph -> submission.csv"]
 ```
 
@@ -94,14 +94,19 @@ the translation b1c applied at jumps, and otherwise equals the upstream smoothin
 +0.00301 (with V5a +0.00353), both embryos positive. Public LB stayed 0.964 (three-decimal display). The
 insured version falls back to the upstream smoothing if J2 raises.
 
-### 4. Final-day candidates
+### 4. Final-day components and the selected submissions
 
-| Component | Code | Evidence | Status |
+| Component | Code | Evidence | Result |
 | --- | --- | --- | --- |
-| Frozen-frame coordinate consensus: nodes linked 1:1 across a frozen transition get their mean smoothed position | `postprocessing/consensus.py` | 88-movie replay +0.00103 (6bba +0.00115, 44b6 0), 13 movies better / 1 worse | Submitted (56663004, 56663011), Public pending |
-| V1284 head fine-tuned with recipe F03 (public-init, distillation weight 0.3, 152 movies) | `detection/coordinate_head.py` | Pre-registered comparison did not pass its gate; visible 4 movies +0.00135 | Submitted (56662358, 56663011), Public pending |
+| Frozen-frame coordinate consensus: nodes linked 1:1 across a frozen transition get their mean smoothed position | `postprocessing/consensus.py` | 88-movie replay +0.00103 (6bba +0.00115, 44b6 0), 13 movies better / 1 worse; visible 4 movies +0.00259 | `fc` (56663004): Public 0.964 |
+| V1284 head fine-tuned with recipe F03 (public-init, distillation weight 0.3, 152 movies) | `detection/coordinate_head.py` | Pre-registered comparison did not pass its gate; visible 4 movies +0.00135 | with the consensus, `fc_f03` (56663011): **Public 0.966**. The earlier F03 submission without the consensus and without the J2 insurance (56662358) completed with a scoring error |
 
-The committed notebook is the core both build on; `scripts/prepare_notebook.py` converts it to any candidate
+**Selected for the private leaderboard: `fc_f03` (0.966) and `fc` (0.964).** Kaggle keeps the higher private
+score of the two. The pair differs only in the coordinate head, so it covers both outcomes of the one question
+the offline data could not answer: whether F03's public gain holds on the private embryos. Both include b1c,
+T3 with V5a, J2 (insured) and the consensus.
+
+The committed notebook is `fc_f03`; `scripts/prepare_notebook.py` converts it to `fc` (or any other candidate)
 and verifies the result against the recorded code hash.
 
 ## The production notebook

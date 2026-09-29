@@ -1,4 +1,4 @@
-"""Frozen-frame coordinate consensus ("case A"), a final-day candidate component.
+"""Frozen-frame coordinate consensus ("case A"), part of both selected submissions (fc, fc_f03).
 
 A frozen transition t (frames t and t+1 bit-identical) shows the same nuclei twice, and the ground truth does
 not move across it (6bba, 88 train movies: 99.5 % of 4,420 GT edges across frozen transitions are < 0.01 um).

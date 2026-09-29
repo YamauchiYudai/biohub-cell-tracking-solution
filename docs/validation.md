@@ -61,7 +61,9 @@ no true fork in the within-embryo CV).
 
 **Coordinate head (F03).** Five movie folds plus both cross-embryo directions, relative to the public head,
 with the pass rule fixed before looking at results. F03 did not pass it; it was submitted only as a final-day
-candidate after a positive visible-movie run.
+candidate after a positive visible-movie run. Combined with the frozen-frame consensus it then scored 0.966 on the
+public board, the only final-day change that moved it. Because the offline gate and the public board disagree, the
+final selection keeps both answers: `fc_f03` (with F03) and `fc` (the same notebook with the public head).
 
 ## 4. Exact CPU replay <a id="cpu-replay"></a>
 

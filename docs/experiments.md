@@ -30,8 +30,10 @@ GPU notebook on the 4 visible test movies (copies of train movies, in-sample).
 | 19 | Rule-based relocalisation, smoothing weight, DeepCenter threshold (09-28) | M1-M4 heatmap peak / sub-voxel / Gaussian fit; line-fit weight 0.6; DeepCenter veto threshold | replay per embryo + visible 4 | - | NO-GO (see failure analysis) |
 | 20 | **J2 jump-aware line fit** (09-28) | Smoothing that respects frozen / jump transitions | replay +0.00301 (J2 + V5a +0.00353), both embryos positive | **0.964** | **Adopted** (insured version: falls back to the upstream smoothing on error) |
 | 21 | Gap filling G1-G6, re-admission R1-R3 (09-29) | One post-processing knob each | replay, gate +0.001 | - | NO-GO: best +0.00010 (G6), re-admission -0.00004 .. +0.00003 |
-| 22 | V1284 head retrain (09-29) | Pre-registered N / Ns / F1 / F03 comparison on 155 movies | 5 movie folds + cross-embryo | pending | Failed its gate; F03 submitted as a final-day candidate after visible 4 +0.00135 |
-| 23 | Frozen-frame coordinate consensus (09-29) | Average the two copies of each nucleus across a frozen transition after J2 | replay +0.00103 (6bba +0.00115), all pre-registered checks pass | pending | Submitted as a final-day candidate (alone and with F03) |
+| 22 | V1284 head retrain (09-29) | Pre-registered N / Ns / F1 / F03 comparison on 155 movies | 5 movie folds + cross-embryo; visible 4 +0.00135 | no score (J2 v1 + F03); **0.966** with the consensus | Failed its offline gate but was the only final-day change that moved the public score; kept in one of the two selected submissions (`fc_f03`) |
+| 23 | Frozen-frame coordinate consensus (09-29) | Average the two copies of each nucleus across a frozen transition after J2 | replay +0.00103 (6bba +0.00115), all pre-registered checks pass; visible 4 +0.00259 | 0.964 (`fc`) | **Adopted** in both selected submissions |
+| 24 | Teammate variants (09-29) | Extra nuclei from a high-resolution detection head (V-add); a fine-tuned detector ("fullstack") | visible 4 | 0.964 / 0.955 | Not selected: no public gain, and V-add adds up to 5 % nodes |
+| 25 | **Final selection** (09-30) | `fc_f03` + `fc`: identical except for the coordinate head | Public 0.966 / 0.964 | private TBD | The higher private score of the two counts; the pair covers both outcomes of F03 |
 
 ## Approaches that were dropped
 

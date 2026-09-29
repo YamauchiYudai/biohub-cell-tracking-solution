@@ -4,7 +4,7 @@ These are the exact texts of the submitted Kaggle kernels (verified by the code-
 configs/final.yaml), kept as data so every candidate notebook can be regenerated from
 notebooks/final_submission.ipynb (the insured J2 + V5a core):
 
-  J2_INSURED_BLOCK  J2 with the fallback-to-S2 insurance (the committed core, 56643954)
+  J2_INSURED_BLOCK  J2 with the fallback-to-S2 insurance (the core, 56643954, and every selected submission)
   J2_V1_BLOCK   J2 as first submitted (56632306 / 56662358), before the fallback-to-S2 insurance was added
   FC_BLOCK      frozen-frame coordinate consensus (56663004 / 56663011)
   FC_ENV_LINE   the cell-0 line that switches FC on

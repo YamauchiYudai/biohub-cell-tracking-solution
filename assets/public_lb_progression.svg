@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" width="760" height="330" role="img" aria-labelledby="t d">
-<title id="t">Best confirmed Public LB over September 2026</title>
-<desc id="d">Step chart of the best confirmed public leaderboard score: 0.936 on Sep 4 (public stack control), 0.941 on Sep 5, 0.946 on Sep 17, 0.953 on Sep 24 (x138 public base), 0.954 on Sep 25 (b1c relink), 0.964 on Sep 26 (T3 division recovery), unchanged at 0.964 on Sep 28 with J2 smoothing.</desc>
+<title id="t">Best Public LB over September 2026</title>
+<desc id="d">Step chart of the best public leaderboard score: 0.936 on Sep 4 (public stack control), 0.941 on Sep 5, 0.946 on Sep 17, 0.953 on Sep 24 (x138 public base), 0.954 on Sep 25 (b1c relink), 0.964 on Sep 26 (T3 division recovery), 0.964 on Sep 28 with J2 smoothing, 0.966 on Sep 29 with the frozen-frame consensus and the F03 head.</desc>
 <style>
 .bg{fill:#fcfcfb}.grid{stroke:#e1e0d9;stroke-width:1}.axis{fill:#898781;font:12px -apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-variant-numeric:tabular-nums}
 .title{fill:#0b0b0b;font:600 15px -apple-system,Segoe UI,Helvetica,Arial,sans-serif}.sub{fill:#52514e;font:12px -apple-system,Segoe UI,Helvetica,Arial,sans-serif}
@@ -9,7 +9,7 @@
 @media (prefers-color-scheme: dark){.bg{fill:#1a1a19}.grid{stroke:#2c2c2a}.title,.lab{fill:#ffffff}.sub,.val{fill:#c3c2b7}.line{stroke:#3987e5}.dot{fill:#3987e5;stroke:#1a1a19}}
 </style>
 <rect class="bg" width="760" height="330" rx="8"/>
-<text class="title" x="64" y="28">Best confirmed Public LB, September 2026</text>
+<text class="title" x="64" y="28">Best Public LB, September 2026</text>
 <text class="sub" x="64" y="48">Own pipeline before the pivot scored 0.616 - 0.669 (off scale). Blue steps = best score so far.</text>
 <line class="grid" x1="64" x2="736" y1="274.0" y2="274.0"/>
 <text class="axis" x="56" y="278.0" text-anchor="end">0.93</text>
@@ -26,18 +26,20 @@
 <text class="axis" x="388.4" y="294" text-anchor="middle">Sep 15</text>
 <text class="axis" x="550.6" y="294" text-anchor="middle">Sep 22</text>
 <text class="axis" x="712.8" y="294" text-anchor="middle">Sep 29</text>
-<path class="line" d="M133.5,243.4 H156.7 V217.9 H434.8 V192.4 H597.0 V156.7 H620.1 V151.6 H643.3 V100.6 H689.7 V100.6"/>
+<path class="line" d="M133.5,243.4 H156.7 V217.9 H434.8 V192.4 H597.0 V156.7 H620.1 V151.6 H643.3 V100.6 H689.7 V100.6 H712.8 V90.4"/>
 <circle class="dot" cx="133.5" cy="243.4" r="5"/>
-<text class="lab" x="133.5" y="265.4" text-anchor="middle">Public stack control <tspan class="val">0.936</tspan></text>
+<text class="lab" x="129.5" y="265.4" text-anchor="start">Public stack control <tspan class="val">0.936</tspan></text>
 <circle class="dot" cx="156.7" cy="217.9" r="5"/>
 <circle class="dot" cx="434.8" cy="192.4" r="5"/>
 <text class="lab" x="424.8" y="182.4" text-anchor="end">Public 0.947 pipeline <tspan class="val">0.946</tspan></text>
 <circle class="dot" cx="597.0" cy="156.7" r="5"/>
-<text class="lab" x="587.0" y="146.7" text-anchor="end">x138 public base <tspan class="val">0.953</tspan></text>
+<text class="lab" x="587.0" y="146.7" text-anchor="end">x138 base <tspan class="val">0.953</tspan></text>
 <circle class="dot" cx="620.1" cy="151.6" r="5"/>
 <text class="lab" x="630.1" y="169.6" text-anchor="start">+ b1c relink <tspan class="val">0.954</tspan></text>
 <circle class="dot" cx="643.3" cy="100.6" r="5"/>
-<text class="lab" x="635.3" y="88.6" text-anchor="end">+ T3 division recovery <tspan class="val">0.964</tspan></text>
+<text class="lab" x="633.3" y="98.6" text-anchor="end">+ T3 division recovery <tspan class="val">0.964</tspan></text>
 <circle class="dot" cx="689.7" cy="100.6" r="5"/>
 <text class="lab" x="651.3" y="124.6">+ J2 smoothing</text><text class="val" x="651.3" y="139.6">LB unchanged</text>
+<circle class="dot" cx="712.8" cy="90.4" r="5"/>
+<text class="lab" x="702.8" y="78.4" text-anchor="end">+ consensus + F03 head <tspan class="val">0.966</tspan></text>
 </svg>

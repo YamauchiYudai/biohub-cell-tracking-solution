@@ -73,10 +73,14 @@ def load_config() -> dict:
 def markdown_for(name: str, cand: dict, cfg: dict, cells: list[str]) -> dict[int, str]:
     lb = cand.get("public_lb")
     edits = cand.get("edits")
+    selected = cfg["result"].get("selected_submissions") or []
+    status = (f"one of the two submissions selected for the private leaderboard ({', '.join(selected)})"
+              if name in selected else "not selected for the private leaderboard")
     head = cfg["inputs"].get(cand.get("head") or "", "see cell 4")
     intro = (
         "# Biohub Cell Tracking - final submission notebook\n\n"
-        f"Candidate **`{name}`** (Kaggle submission {cand['submission_id']}, Public LB {lb}): {cand['summary']}.\n\n"
+        f"Candidate **`{name}`** (Kaggle submission {cand['submission_id']}, Public LB {lb}): {cand['summary']}. "
+        f"This is {status}.\n\n"
         "Built on the public notebook \"biohub x138\" by Anvith Pothula (Apache-2.0), which extends Teddy Tennant's "
         "\"frontier947 readmit v1\" and Reyhan Ksatria's 0.947 pipeline on pilkwang's pretrained models (all "
         "Apache-2.0 / CC0). Upstream cells are unchanged; the team's "
@@ -150,9 +154,12 @@ def main() -> int:
         problems = check_cells(name, nbk.code_cells(nb), cfg)
         code = [c for c in nb["cells"] if c["cell_type"] == "code"]
         problems += [f"code cell {i} has outputs" for i, c in enumerate(code) if c.get("outputs")]
-        final = cfg["result"]["final_submission"]
-        if final not in ("TBD", None) and final != name:
-            problems.append(f"result.final_submission is {final} but the notebook holds {name}")
+        selected = cfg["result"].get("selected_submissions") or []
+        scoring = cfg["result"].get("scoring_submission")
+        if selected and name not in selected:
+            problems.append(f"the notebook holds {name}, which is not one of the selected submissions {selected}")
+        if scoring not in ("TBD", None) and scoring != name:
+            problems.append(f"result.scoring_submission is {scoring} but the notebook holds {name}")
         print(f"{path.relative_to(ROOT)}: candidate {name}, code sha256 {nbk.code_sha256(nbk.code_cells(nb))}")
         for p in problems:
             print("  PROBLEM:", p)

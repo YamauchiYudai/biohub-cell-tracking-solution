@@ -7,7 +7,7 @@ T3 division CNN (production):
   python scripts/train.py t3 --mode inner   --crops work/t3_crops --out work/t3_inner     # scores for tau selection
   python scripts/train.py t3 --mode full    --crops work/t3_crops --out work/t3_full      # submission weights
 
-V1284 coordinate head, recipe F03 (final-day candidate):
+V1284 coordinate head, recipe F03 (used by the selected submission fc_f03):
   python scripts/train.py coordinate-head --pairs work/v1284_pairs.npz --public-head v1284_head.pt \
       --out work/head_f03 [--evaluate]
 

@@ -5,7 +5,7 @@ Subpackages
   metrics         thin wrapper around the organisers' official scorer (optional ``metric`` extra)
   division        learned division recovery: candidate forks, T3 3D-CNN scorer, gated add / remove
   postprocessing  jump-aware relink (b1c), jump-aware line fit (J2), frozen-frame coordinate consensus
-  detection       V1284 coordinate-refinement head fine-tuning (final-day candidate component)
+  detection       V1284 coordinate-refinement head fine-tuning (F03, in the selected fc_f03)
   kaggle          reading, checking and preparing the production Kaggle notebook
 """
 

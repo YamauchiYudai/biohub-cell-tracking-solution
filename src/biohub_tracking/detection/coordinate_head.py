@@ -1,4 +1,4 @@
-"""V1284 coordinate-refinement head: fine-tuning recipe "F03" (final-day candidate component).
+"""V1284 coordinate-refinement head: fine-tuning recipe "F03" (in the selected submission fc_f03, Public 0.966).
 
 The upstream x138 notebook refines every fused detection with a small head on frozen U-Net features: the
 feature at the detection voxel plus the differences to its 6 axis neighbours (224 values) go through

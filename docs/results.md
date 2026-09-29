@@ -19,10 +19,14 @@ offline replay; nothing is estimated.
 | 2026-09-26 | 56578893 | **S2**: + T3 division add / remove | **0.964** |
 | 2026-09-27 | 56603553 | S2 + V5a (learned adds exempt from the division budget) | 0.964 |
 | 2026-09-28 | 56632306 | S2 + J2 + V5a | 0.964 |
-| 2026-09-28 | 56643954 | S2 + J2 + V5a, J2 insured (the committed core) | 0.964 |
-| 2026-09-29 | 56662358 / 56663004 / 56663011 / 56665741 | final-day candidates (F03 head / frozen consensus / both / teammate's V-add) | pending |
+| 2026-09-28 | 56643954 | S2 + J2 + V5a, J2 insured (the core every final-day candidate is built on) | 0.964 |
+| 2026-09-29 | 56662358 | J2 + V5a + F03 head (no J2 insurance) | no score (scoring error) |
+| 2026-09-29 | 56663004 | core + frozen-frame coordinate consensus (**`fc`, selected**) | 0.964 |
+| 2026-09-29 | 56663011 | core + frozen-frame coordinate consensus + F03 head (**`fc_f03`, selected**) | **0.966** |
+| 2026-09-29 | 56665741 | S2 + J2 + extra detections from a high-resolution head (teammate's V-add) | 0.964 |
+| 2026-09-29 | 56674982 | teammate's fine-tuned detector ("fullstack") | 0.955 |
 
-Best confirmed Public LB: **0.964**.
+Best Public LB: **0.966** (`fc_f03`).
 
 ## Offline numbers of the production components
 
@@ -33,11 +37,15 @@ Best confirmed Public LB: **0.964**.
 | S2 (b1c + T3) | 88-movie replay, official score | 0.9430 (44b6 0.9312, 6bba 0.9452); divisions 44 TP / 35 FP / 107 FN |
 | J2 + V5a over S2 | 88-movie replay | +0.00353 (44b6 +0.00316, 6bba +0.00374); edges +54 TP / -116 FP / -54 FN |
 | Frozen-frame consensus over J2 + V5a | 88-movie replay | +0.00103 (6bba +0.00115, 44b6 0); +0.00087 without the best movie |
+| Frozen-frame consensus | 4 visible movies (GPU run) | +0.00259 on the core; +0.00214 on top of the F03 head |
 | F03 head over J2 + V5a | 4 visible movies (GPU run) | +0.00135 |
+| F03 head on top of the consensus (`fc` -> `fc_f03`) | Public LB | 0.964 -> 0.966 |
 
 ## Final result
 
 | | Value |
 | --- | --- |
-| Final submission | TBD (`configs/final.yaml` `result.final_submission`) |
-| Final rank / Private LB | see README |
+| Selected submissions | `fc_f03` (56663011, Public 0.966) and `fc` (56663004, Public 0.964) |
+| Why this pair | Kaggle keeps the higher private score of the two. They differ only in the V1284 head, so the pair covers both answers to the one open question: whether F03's public gain is real on the private embryos |
+| Private LB of each / which one counts | TBD (`configs/final.yaml` `result.scoring_submission`) |
+| Final rank | see README |

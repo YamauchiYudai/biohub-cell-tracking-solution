@@ -3,22 +3,23 @@
 This repository must not be pushed to GitHub before the competition has ended
 (final submission deadline 2026-09-29 23:59 UTC = 2026-09-30 08:59 JST) and the owner has approved the push.
 
-Status as of 2026-09-29 (local branch `public-release-prep`, not pushed):
+Status as of 2026-09-30 07:45 JST (merged into the local `main`, not pushed):
 
-- [ ] **Competition finished** - not yet: **push is not allowed.**
-- [ ] Final rank updated (README "Competition Result": currently TBD)
-- [ ] Private LB updated (README "Competition Result": currently TBD)
-- [ ] Solution write-up updated before publishing it on Kaggle: header result line and section 7 "Where we draw
-      the line" in `notebooks/solution_writeup.ipynb` (final selection and private results are TBD there)
-- [ ] Final submission identified: set `result.final_submission` in `configs/final.yaml`
-- [ ] Final config matches submission: `python scripts/prepare_notebook.py --candidate <final>` then
-      `python scripts/prepare_notebook.py --check` (code-cell SHA-256 equals the submitted kernel)
-- [ ] Final notebook matches submission (same command; for `v_add`, pass the teammate's kernel notebook with
-      `--source` and record its `code_sha256`)
-- [ ] Components not used by the final submission removed or marked (if the final submission uses neither
-      the F03 head nor the frozen-frame consensus, delete `src/biohub_tracking/detection/`,
-      `postprocessing/consensus.py` and their tests, or keep them labelled as final-day candidates)
-- [x] Tests pass: `pytest -q` (96 passed with all extras + matplotlib; 90 passed + 6 skipped with `.[dev]` only)
+- [ ] **Competition finished** - not yet (deadline 08:59 JST): **push is not allowed before it.**
+- [ ] Private LB of both selected submissions and the final rank filled in: README "Competition Result",
+      `result.scoring_submission` in `configs/final.yaml`, the header and section 7 of
+      `notebooks/solution_writeup.ipynb`, and `docs/results.md` "Final result" (all currently TBD)
+- [ ] If `fc` (not `fc_f03`) turns out to be the scoring submission: `python scripts/prepare_notebook.py --candidate fc`,
+      set `notebook.candidate: fc`, then `python scripts/prepare_notebook.py --check`
+- [x] Final submissions identified: `fc_f03` (56663011, Public 0.966) and `fc` (56663004, Public 0.964) in
+      `result.selected_submissions`
+- [x] Final config matches submission: `prepare_notebook.py --check` OK for the committed `fc_f03`
+      (code-cell SHA-256 equals the submitted kernel); `fc` is regenerated and hash-checked by the tests
+- [x] Final notebook matches submission (same check)
+- [x] Components used by the selected submissions are all in `src/` (b1c, T3 + V5a, J2, frozen-frame consensus,
+      F03 head); none needs to be removed
+- [x] Solution write-up filled in (selection, all public scores); only the private LB and rank remain TBD
+- [x] Tests pass: `pytest -q` (all extras + matplotlib: all pass; `.[dev]` only: optional-extra tests skip)
 - [x] Secret scan passes (detect-secrets: only SHA-256 code / weight fingerprints flagged; targeted pattern
       scan: only the scan patterns themselves and .gitignore entries) - rerun right before pushing
 - [x] No competition data committed (no `.zarr`, `.geff`, images or GT tables)

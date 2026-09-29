@@ -161,3 +161,13 @@ def test_prepare_notebook_check_passes():
     finally:
         sys.argv = old
     json.loads((ROOT / CONFIG["notebook"]["path"]).read_text())
+
+
+def test_selected_submissions_are_reproducible_and_differ_only_in_the_head():
+    selected = CONFIG["result"]["selected_submissions"]
+    cands = [CONFIG["candidates"][name] for name in selected]
+    assert len(selected) == 2 and CONFIG["notebook"]["candidate"] in selected
+    assert all(c["edits"] is not None and c["code_sha256"] and isinstance(c["public_lb"], float) for c in cands)
+    assert set(cands[0]["edits"]) ^ set(cands[1]["edits"]) == {"head_f03"}
+    best = max(CONFIG["candidates"].values(), key=lambda c: c["public_lb"] if isinstance(c["public_lb"], float) else 0)
+    assert best is CONFIG["candidates"][CONFIG["notebook"]["candidate"]]

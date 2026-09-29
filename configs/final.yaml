@@ -1,14 +1,16 @@
 # Final submission configuration.
 #
-# Final rank and leaderboard scores are shown in one place only: the "Competition Result" table in README.md.
-# `result.final_submission` records which candidate that result belongs to; `notebook.candidate` names the
-# candidate whose code is in notebooks/final_submission.ipynb;
+# Final rank and private scores are shown in one place only: the "Competition Result" table in README.md.
+# `result.selected_submissions` are the two submissions selected on Kaggle for the private leaderboard (the
+# higher private score of the two counts); `notebook.candidate` names the candidate whose code is in
+# notebooks/final_submission.ipynb;
 # `python scripts/prepare_notebook.py --candidate <name>` rewrites the notebook and checks its code-cell
 # SHA-256 against `candidates.<name>.code_sha256`. tests/test_submission.py checks this file against the
 # committed notebook.
 
 result:
-  final_submission: TBD             # a key of `candidates`, set after the private leaderboard is published
+  selected_submissions: [fc_f03, fc]  # selected on Kaggle before the deadline; they differ only in the V1284 head
+  scoring_submission: TBD             # whichever of the two scores higher on the private leaderboard
 
 competition:
   slug: biohub-cell-tracking-during-development
@@ -16,7 +18,7 @@ competition:
 
 notebook:
   path: notebooks/final_submission.ipynb
-  candidate: core                   # the confirmed-0.964 core every final-day candidate is built on
+  candidate: fc_f03                 # the selected submission with the best public score
 
 # Team-owned settings of the production path (cell-0 environment overrides on top of configs/default.yaml).
 production_env:
@@ -47,7 +49,8 @@ inputs:
   head_public: anvithpothula/biohub-v1284-head-s075        # V1284 coordinate head (CC0-1.0)
   head_f03: yudaiyamauchi/biomed-x138-v1284-head-f03       # F03 fine-tuned head (team), sha256 checked in cell 4
 
-# Final-day candidates. All but v_add are regenerated from the committed core by `edits`.
+# Final-day candidates (public scores from the Kaggle submissions list). All but v_add are regenerated from the core
+# notebook by `edits`, whichever candidate is committed.
 candidates:
   core:
     submission_id: 56643954
@@ -68,7 +71,7 @@ candidates:
   f03:
     submission_id: 56662358
     kernel: yudaiyamauchi/biomed-x138-division-s2-j2-v5a-f03
-    public_lb: pending
+    public_lb: no score            # the submission completed with a scoring error on Kaggle
     edits: [j2_v1, head_f03]
     head: head_f03
     code_sha256: fa3ac9b5219def609fdfa555cf60854bbabe469014e60c11f1f9569c302c782c
@@ -76,7 +79,7 @@ candidates:
   fc:
     submission_id: 56663004
     kernel: yudaiyamauchi/biomed-x138-division-s2-j2-v5a-fc
-    public_lb: pending
+    public_lb: 0.964               # selected
     edits: [frozen_consensus]
     head: head_public
     code_sha256: 53b3f4813549073cbca605e949b48088a938e83fe3e64db1efc6a3b6e75c68c4
@@ -84,7 +87,7 @@ candidates:
   fc_f03:
     submission_id: 56663011
     kernel: yudaiyamauchi/biomed-x138-division-s2-j2-v5a-fc-f03
-    public_lb: pending
+    public_lb: 0.966               # selected; best public score of the competition for this team
     edits: [frozen_consensus, head_f03]
     head: head_f03
     code_sha256: 35b9a01a16c4d0a0b34f696b3dcc626ef46c7b8dacaaa30cad4b6f05ffe91076
@@ -92,7 +95,7 @@ candidates:
   v_add:
     submission_id: 56665741
     kernel: null            # teammate's kernel; pass its notebook with --source
-    public_lb: pending
+    public_lb: 0.964               # not selected
     edits: null
     head: null
     code_sha256: null       # fill in from `prepare_notebook.py --candidate v_add --source <notebook>` output
