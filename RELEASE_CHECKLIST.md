@@ -8,6 +8,8 @@ Status as of 2026-09-29 (local branch `public-release-prep`, not pushed):
 - [ ] **Competition finished** - not yet: **push is not allowed.**
 - [ ] Final rank updated (README "Competition Result": currently TBD)
 - [ ] Private LB updated (README "Competition Result": currently TBD)
+- [ ] Solution write-up updated before publishing it on Kaggle: header result line and section 7 "Where we draw
+      the line" in `notebooks/solution_writeup.ipynb` (final selection and private results are TBD there)
 - [ ] Final submission identified: set `result.final_submission` in `configs/final.yaml`
 - [ ] Final config matches submission: `python scripts/prepare_notebook.py --candidate <final>` then
       `python scripts/prepare_notebook.py --check` (code-cell SHA-256 equals the submitted kernel)
@@ -16,7 +18,7 @@ Status as of 2026-09-29 (local branch `public-release-prep`, not pushed):
 - [ ] Components not used by the final submission removed or marked (if the final submission uses neither
       the F03 head nor the frozen-frame consensus, delete `src/biohub_tracking/detection/`,
       `postprocessing/consensus.py` and their tests, or keep them labelled as final-day candidates)
-- [x] Tests pass: `pytest -q` (94 passed with all extras; 89 passed + 5 skipped with `.[dev]` only)
+- [x] Tests pass: `pytest -q` (96 passed with all extras + matplotlib; 90 passed + 6 skipped with `.[dev]` only)
 - [x] Secret scan passes (detect-secrets: only SHA-256 code / weight fingerprints flagged; targeted pattern
       scan: only the scan patterns themselves and .gitignore entries) - rerun right before pushing
 - [x] No competition data committed (no `.zarr`, `.geff`, images or GT tables)

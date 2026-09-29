@@ -108,7 +108,8 @@ biohub-cell-tracking-solution/
 │   └── kaggle/          notebook fingerprinting, block extraction, candidate conversion
 ├── configs/             default.yaml (inherited upstream settings), final.yaml (team settings, candidates)
 ├── scripts/             train.py, evaluate.py, prepare_notebook.py
-├── notebooks/           final_submission.ipynb (the submitted Kaggle notebook, code cells byte-identical)
+├── notebooks/           final_submission.ipynb (the submitted Kaggle notebook, code cells byte-identical),
+│                        solution_writeup.ipynb (the Kaggle solution write-up)
 ├── tests/               unit tests + parity tests against the notebook's own code
 └── docs/                solution, validation, experiments, failure analysis, results
 ```
@@ -194,7 +195,9 @@ retrain them.
 - **Distrust in-sample gains.** Several replay improvements disappeared on the real run or rested on a single
   movie; per-embryo and leave-one-movie-out checks became part of every gate.
 
-Full table: [docs/experiments.md](docs/experiments.md).
+Full table: [docs/experiments.md](docs/experiments.md). The narrative version, written for the Kaggle solution
+write-up, is [notebooks/solution_writeup.ipynb](notebooks/solution_writeup.ipynb); its code cells redraw the figures
+and reproduce b1c, J2 and the division arithmetic on synthetic data (no competition data needed).
 
 ## License / Acknowledgements
 
