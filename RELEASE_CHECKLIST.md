@@ -4,9 +4,10 @@ The GitHub repository is **private**. Pushing to it is allowed (owner approval, 
 is not allowed before the competition has ended (final submission deadline 2026-09-29 23:59 UTC = 2026-09-30
 08:59 JST) and the private results are filled in.
 
-Status as of 2026-09-30 07:45 JST (`main` pushed to the private repository):
+Status as of 2026-09-30 09:36 JST (`main` pushed to the private repository):
 
-- [ ] **Competition finished** - not yet (deadline 08:59 JST): **do not make the repository public before it.**
+- [x] **Competition finished** (deadline 2026-09-30 08:59 JST passed); the repository stays private until the
+      private results are filled in
 - [ ] Private LB of both selected submissions and the final rank filled in: README "Competition Result",
       `result.scoring_submission` in `configs/final.yaml`, the header and section 7 of
       `notebooks/solution_writeup.ipynb`, and `docs/results.md` "Final result" (all currently TBD)
@@ -21,6 +22,14 @@ Status as of 2026-09-30 07:45 JST (`main` pushed to the private repository):
       F03 head); none needs to be removed
 - [x] Solution write-up filled in (selection, all public scores); only the private LB and rank remain TBD
 - [x] Tests pass: `pytest -q` (all extras + matplotlib: all pass; `.[dev]` only: optional-extra tests skip)
+- [x] Verified on Kaggle (2026-09-30, private kernels, nothing submitted):
+      `notebooks/final_submission.ipynb` as committed, GPU T4 x2 with the submission's inputs: completed, and its
+      `submission.csv` for the 4 visible movies is byte-identical to the output of submission 56663011
+      (SHA-256 e5bd8b01...), deadline not degraded, only timing statistics differ;
+      the package on Kaggle's standard image (Python 3.12): install with all extras, 97 tests pass, CLIs run on
+      real train movies (`read_geff`, `evaluate.py` with the official metric, `train.py t3-crops` / `t3`), the real T3
+      weights load and score real crops, the real F03 head matches its SHA-256;
+      `notebooks/solution_writeup.ipynb`: runs end to end with the same outputs as locally
 - [x] Secret scan passes (detect-secrets: only SHA-256 code / weight fingerprints flagged; targeted pattern
       scan: only the scan patterns themselves and .gitignore entries) - rerun right before pushing
 - [x] No competition data committed (no `.zarr`, `.geff`, images or GT tables)

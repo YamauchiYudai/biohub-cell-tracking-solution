@@ -188,6 +188,11 @@ python scripts/prepare_notebook.py --candidate fc           # the other selected
 The team-trained weights (`biomed-x138-division-t3-full-weights`, `biomed-x138-v1284-head-f03`) are Kaggle
 datasets, published after the competition deadline; `scripts/train.py` retrains them.
 
+Verified on Kaggle (2026-09-30): the committed notebook, re-run on a T4 x2 GPU with the submission's inputs,
+reproduces the `submission.csv` of submission 56663011 byte for byte on the visible movies; the package installs
+on Kaggle's standard image, passes its 97 tests and runs its CLIs on real training movies and on the real team
+weight files; the write-up notebook runs end to end.
+
 ## Experiments / Lessons Learned
 
 - **Measure before modelling.** Seven association models (0.870-0.946) could not beat the control because the
