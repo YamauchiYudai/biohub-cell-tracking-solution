@@ -15,13 +15,15 @@ dependencies = [
     "pandas>=2.1",
     "scipy>=1.11",
     "pyyaml>=6.0",
+    "packaging>=24.0",
 ]
 
 [project.optional-dependencies]
+security = ["bandit==1.9.4", "detect-secrets==1.5.0", "pip-audit==2.10.1"]
 # T3 division CNN and the V1284 coordinate head (training / offline scoring)
 torch = [
-    "torch>=2.2",
-    "scikit-learn>=1.3",
+    "torch>=2.14.0",
+    "scikit-learn>=1.5",
     "zarr>=3.0",
 ]
 # Local scoring with the organisers' official metric (royerlab/kaggle-cell-tracking-competition, BSD-3-Clause)
@@ -34,7 +36,7 @@ metric = [
 ]
 dev = [
     "pytest>=8.0",
-    "scikit-learn>=1.3",   # imported by the notebook's embedded modules that the parity tests load
+    "scikit-learn>=1.5",   # imported by the notebook's embedded modules that the parity tests load
     "ruff>=0.6",
 ]
 

@@ -1,16 +1,35 @@
 # Release checklist
 
-The GitHub repository is **private**. Pushing to it is allowed (owner approval, 2026-09-30). Making it **public**
-is not allowed before the competition has ended (final submission deadline 2026-09-29 23:59 UTC = 2026-09-30
-08:59 JST) and the private results are filled in.
+The repository is **already public**, confirmed on 2026-10-01 (JST). The previous description of a private
+repository was stale. Remaining leaderboard and model-availability tasks below concern results and
+reproducibility; they are not evidence of a credential leak.
 
-Status as of 2026-09-30 09:36 JST (`main` pushed to the private repository):
+## Security checks (2026-10-01 JST)
 
-- [x] **Competition finished** (deadline 2026-09-30 08:59 JST passed); the repository stays private until the
-      private results are filled in
+- [x] GitHub secret scanning and push protection enabled
+- [x] Dependabot vulnerability alerts/security updates and private vulnerability reporting enabled
+- [x] Current files and all 9 reachable commits scanned: no detected secrets beyond reviewed SHA fingerprints
+- [x] No raw competition data or model checkpoints found among tracked files/history
+- [x] Model loaders reject outdated PyTorch, unrestricted pickle and paths outside the model bundle
+- [x] Restricted-loading notebook generator added; original submitted code-cell fingerprint retained
+- [x] Known-vulnerability audit of the resolved environment passes; see coverage limits in [SECURITY.md](SECURITY.md)
+- [x] Static analysis: no medium/high findings; security regression tests pass
+- [x] Repeatable release scanner, read-only CI workflow and dependency-update configuration added
+- [ ] Restricted-loading notebook verified on Kaggle GPU with real inputs and output parity
+- [ ] This security change merged into the public default branch and its CI run confirmed
+
+The historical notebook contains unsafe legacy model-loading paths and is provided for archival inspection.
+For new runs use `python scripts/prepare_safe_notebook.py`, with reviewed inputs in an isolated Kaggle
+session. Do not describe the archive as safe for arbitrary downloaded models. See [SECURITY.md](SECURITY.md)
+for execution boundaries and private reporting.
+
+## Results, attribution and reproducibility
+
+- [x] **Competition finished** (deadline 2026-09-30 08:59 JST passed)
 - [ ] Private LB of both selected submissions and the final rank filled in: README "Competition Result",
       `result.scoring_submission` in `configs/final.yaml`, the header and section 7 of
-      `notebooks/solution_writeup.ipynb`, and `docs/results.md` "Final result" (all currently TBD)
+      `notebooks/solution_writeup.ipynb`, and `docs/results.md` "Final result". README records 79 / 0.930;
+      the per-submission scores and scoring candidate still need confirmation.
 - [ ] If `fc` (not `fc_f03`) turns out to be the scoring submission: `python scripts/prepare_notebook.py --candidate fc`,
       set `notebook.candidate: fc`, then `python scripts/prepare_notebook.py --check`
 - [x] Final submissions identified: `fc_f03` (56663011, Public 0.966) and `fc` (56663004, Public 0.964) in
@@ -30,27 +49,27 @@ Status as of 2026-09-30 09:36 JST (`main` pushed to the private repository):
       real train movies (`read_geff`, `evaluate.py` with the official metric, `train.py t3-crops` / `t3`), the real T3
       weights load and score real crops, the real F03 head matches its SHA-256;
       `notebooks/solution_writeup.ipynb`: runs end to end with the same outputs as locally
-- [x] Secret scan passes (detect-secrets: only SHA-256 code / weight fingerprints flagged; targeted pattern
-      scan: only the scan patterns themselves and .gitignore entries) - rerun right before pushing
-- [x] No competition data committed (no `.zarr`, `.geff`, images or GT tables)
-- [x] No checkpoints accidentally committed (no `.pt` / `.pth` / `.ckpt` / `.npz`; largest file is the notebook)
 - [x] Third-party licenses reviewed (`THIRD_PARTY_NOTICES.md`, `LICENSES/Apache-2.0.txt`)
 - [ ] README reviewed by the owner
 - [x] Teammate approved publication and attribution
 - [ ] Kaggle weight datasets made public after the deadline (planned by the owner):
       `yudaiyamauchi/biomed-x138-division-t3-full-weights`, `yudaiyamauchi/biomed-x138-v1284-head-f03`
-- [x] git status clean
-- [x] User approved git push to the private repository (2026-09-30)
-- [ ] **Repository visibility switched to public** (after the competition ends, with the private results filled in)
 
-## Commands to run before every push and before switching the repository to public
+## Before each publication update
 
 ```bash
-python -m compileall -q src scripts
+python -m pip install --upgrade 'pip>=26.2'
+python -m pip install -e '.[dev,torch,metric,security]' matplotlib
+python scripts/check_release_security.py --history
+bandit -r src scripts -ll
+pip-audit --skip-editable
 pytest -q
 python scripts/prepare_notebook.py --check
-detect-secrets scan --all-files --exclude-files '(^\.git/|LICENSES/)'
-git ls-files | xargs grep -nIE 'ghp_|github_pat_|sk-[A-Za-z0-9]{20}|KAGGLE_KEY|CLEARML_API_(ACCESS|SECRET)_KEY|/Users/|@gmail\.com|CloudStorage' ; echo "exit $? (1 = no match)"
-git ls-files | grep -iE '(^|/)(kaggle\.json|\.env)$|\.(pt|pth|ckpt|onnx|npz|zarr|geff)$' ; echo "exit $? (1 = none)"
+python scripts/prepare_safe_notebook.py
+git diff --check
 git status --short
 ```
+
+Review new figures for private data, license notices and anonymous access to linked model datasets. A
+previous green scan or clean working tree does not describe newly edited files. Leaderboard verification,
+owner review and dataset publication remain explicit pending tasks; do not mark them complete by inference.

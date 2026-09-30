@@ -126,7 +126,9 @@ pip install -e ".[torch]"          # T3 / coordinate-head training
 pip install -e ".[metric]"         # local scoring with the official metric (installs from GitHub)
 ```
 
-Python 3.10+. The core package needs only numpy, pandas, scipy and PyYAML.
+Python 3.10+. The core package needs numpy, pandas, scipy, PyYAML and packaging.
+Use a current installer (`python -m pip install --upgrade 'pip>=26.2'`). The torch extra requires
+PyTorch 2.14.0+; older versions are rejected before reading model weights.
 
 ## Data
 
@@ -155,10 +157,20 @@ python scripts/train.py coordinate-head --pairs work/v1284_pairs.npz --public-he
 
 ## Inference
 
-Inference runs as the Kaggle notebook `notebooks/final_submission.ipynb` (GPU T4 x2, internet off, an estimated
-7-8 h on the hidden test set). Attach the competition data and the datasets listed in its first cell; it writes
-`/kaggle/working/submission.csv`. The notebook is the exact submitted code, so no local inference script
-re-implements it.
+For a new run, generate the restricted-loading derivative:
+
+```bash
+python scripts/prepare_safe_notebook.py
+```
+
+Upload `outputs/safe_submission.ipynb` to an isolated Kaggle session (GPU T4 x2, internet off), using only
+reviewed competition inputs and support packs. It requires PyTorch 2.14.0+, enforces weights-only loading
+(including child processes), and disables the unused legacy pickle scorer. It deliberately stops for
+unsupported checkpoints. GPU execution and output parity of this derivative have **not** yet been verified.
+
+`notebooks/final_submission.ipynb` preserves the exact historical submission for inspection and parity checks.
+It includes unrestricted upstream checkpoint loading: do not run it with untrusted models or credentials.
+See [SECURITY.md](SECURITY.md) for the trust boundaries, audit scope and reporting channel.
 
 ## Evaluation
 

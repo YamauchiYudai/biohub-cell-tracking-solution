@@ -22,6 +22,8 @@ from __future__ import annotations
 import numpy as np
 from scipy.spatial import cKDTree
 
+from biohub_tracking.security import load_weights
+
 GRID_UM = 1.625
 FEATURES = 224
 EPOCHS = 300
@@ -45,9 +47,7 @@ def bounded(head, x):
 
 
 def load_head(path):
-    import torch
-
-    saved = torch.load(path, map_location="cpu", weights_only=True)
+    saved = load_weights(path)
     head = make_head()
     head.load_state_dict(saved["state_dict"])
     head.eval()

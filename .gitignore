@@ -23,6 +23,8 @@ work/
 *.pth
 *.ckpt
 *.onnx
+*.pkl
+*.pickle
 *.safetensors
 *.npz
 *.npy
