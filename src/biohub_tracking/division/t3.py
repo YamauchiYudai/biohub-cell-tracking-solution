@@ -26,6 +26,8 @@ from pathlib import Path
 
 import numpy as np
 
+from biohub_tracking.security import load_weights, model_path
+
 CROP = (16, 48, 48)              # model input z, y, x (native voxels)
 EXPORT = (18, 64, 64)            # training export keeps a margin for the random shift
 MAX_SHIFT = ((EXPORT[0] - CROP[0]) // 2, (EXPORT[1] - CROP[1]) // 2, (EXPORT[2] - CROP[2]) // 2)
@@ -123,15 +125,13 @@ def predict(models: list, crops_u16: np.ndarray, device: str = "cpu", batch: int
 
 def load_models(weight_dir: Path, names: list[str] | None = None, device: str = "cpu") -> list:
     """Models listed in ``<weight_dir>/t3_models.json`` (optionally only ``names``)."""
-    import torch
-
     meta = json.loads((Path(weight_dir) / "t3_models.json").read_text())
     models = []
     for entry in meta["models"]:
         if names is not None and entry["name"] not in names:
             continue
         model = build_model(**meta["arch"])
-        model.load_state_dict(torch.load(Path(weight_dir) / entry["file"], map_location=device, weights_only=True))
+        model.load_state_dict(load_weights(model_path(weight_dir, entry["file"]), map_location=device))
         models.append(model.eval().to(device))
     return models
 
@@ -330,7 +330,6 @@ def score_candidate_table(df, train_dir: Path, holdout_dir: Path, device: str = 
     ``inner_dir``, ``t3_inner`` (the within-embryo movie-OOF model that held this movie out). Threshold
     selection fits on ``t3_inner`` and reports on ``t3_holdout`` of the other embryo.
     """
-    import torch
     import zarr
 
     meta = json.loads((Path(holdout_dir) / "t3_models.json").read_text())
@@ -342,7 +341,7 @@ def score_candidate_table(df, train_dir: Path, holdout_dir: Path, device: str = 
         imeta = json.loads((Path(inner_dir) / "t3_inner_models.json").read_text())
         for entry in imeta["models"]:
             model = build_model(**imeta["arch"])
-            model.load_state_dict(torch.load(Path(inner_dir) / entry["file"], map_location=device, weights_only=True))
+            model.load_state_dict(load_weights(model_path(inner_dir, entry["file"]), map_location=device))
             for movie in entry["heldout_movies"]:
                 if movie in inner_by_movie:
                     raise ValueError(f"duplicate inner model for {movie}")
