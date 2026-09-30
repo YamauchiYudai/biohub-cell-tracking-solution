@@ -79,6 +79,10 @@ def markdown_for(name: str, cand: dict, cfg: dict, cells: list[str]) -> dict[int
     head = cfg["inputs"].get(cand.get("head") or "", "see cell 4")
     intro = (
         "# Biohub Cell Tracking - final submission notebook\n\n"
+        "**Security: archival, trusted-input-only code.** This exact submission includes unrestricted "
+        "upstream checkpoint loading and an inactive legacy pickle loader. Do not run it with untrusted "
+        "models or credentials. For new runs generate `outputs/safe_submission.ipynb` using "
+        "`python scripts/prepare_safe_notebook.py`; see [SECURITY.md](../SECURITY.md).\n\n"
         f"Candidate **`{name}`** (Kaggle submission {cand['submission_id']}, Public LB {lb}): {cand['summary']}. "
         f"This is {status}.\n\n"
         "Built on the public notebook \"biohub x138\" by Anvith Pothula (Apache-2.0), which extends Teddy Tennant's "
