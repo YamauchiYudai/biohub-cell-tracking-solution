@@ -7,16 +7,11 @@ its cell lineage (who came from whom, and when cells divide).
 
 ## Competition Result
 
-> Final rank and private leaderboard are **not published yet** and are left as TBD on purpose. This table is the
-> single place to update them.
-
 | | |
 | --- | --- |
-| Final Rank | TBD |
-| Private LB | TBD |
-| Public LB (best) | **0.966** (`fc_f03`, submission 56663011) |
-| Selected submissions | `fc_f03` (Public 0.966) and `fc` (Public 0.964); they differ only in the coordinate head |
-| Team | Yudai Yamauchi, Tsukasa Miyaji |
+| Final Rank | 79 |
+| Private LB | **0.930** |
+| Public LB (best) | **0.966** |
 
 ![Best Public LB over September 2026](assets/public_lb_progression.svg)
 
