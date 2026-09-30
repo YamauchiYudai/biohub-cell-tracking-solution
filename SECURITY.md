@@ -57,8 +57,11 @@ repository permissions. Dependabot checks Python dependencies and Actions update
 
 ## Review on 2026-10-01 (JST)
 
-- GitHub visibility confirmed **public**; secret scanning, push protection, Dependabot alerts/security
-  updates and private vulnerability reporting enabled. No open alerts were returned at review time.
+- During the initial public review, secret scanning, push protection, Dependabot alerts/security
+  updates and private vulnerability reporting were enabled; no open alerts were returned. After PR #1
+  was merged, the repository was reconfirmed **private**. GitHub secret-scanning/private-reporting APIs
+  are currently unavailable for this private repository; local and CI scans remain active. Recheck the
+  GitHub protections before any future visibility change. Dependabot security updates remain enabled.
 - All 9 reachable commits (94 distinct file/blob pairs at the reviewed base `3430042`) scanned; findings
   were only the reviewed SHA-256 fingerprints. Current publication files pass the same scanner.
 - Bandit: no medium/high findings in `src/` and `scripts/`. Three low findings are the scanner's fixed Git
@@ -72,6 +75,7 @@ repository permissions. Dependabot checks Python dependencies and Actions update
 
 ## Reporting a vulnerability
 
-Use [GitHub private vulnerability reporting](https://github.com/YamauchiYudai/biohub-cell-tracking-solution/security/advisories/new).
+When available, use [GitHub private vulnerability reporting](https://github.com/YamauchiYudai/biohub-cell-tracking-solution/security/advisories/new).
+While the repository is private, report findings directly to its owner through an existing private channel.
 Do not put tokens, private microscopy data or exploit checkpoints in a public issue. If a real credential is
 found in history, revoke/rotate it first; deleting the visible file is not sufficient.

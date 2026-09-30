@@ -1,13 +1,17 @@
 # Release checklist
 
-The repository is **already public**, confirmed on 2026-10-01 (JST). The previous description of a private
-repository was stale. Remaining leaderboard and model-availability tasks below concern results and
-reproducibility; they are not evidence of a credential leak.
+The repository is **currently private**, reconfirmed on 2026-10-01 (JST) after the security PR was merged.
+It was public during the initial review and was subsequently made private. No visibility change is made
+by this security update. Remaining leaderboard and model-availability tasks below concern results and
+reproducibility; the security results and execution limits are recorded separately.
 
 ## Security checks (2026-10-01 JST)
 
-- [x] GitHub secret scanning and push protection enabled
-- [x] Dependabot vulnerability alerts/security updates and private vulnerability reporting enabled
+- [x] Secret/history scanning enforced by the repository CI and local release checker
+- [x] Dependabot vulnerability alerts/security updates enabled
+- [ ] When public again, verify GitHub secret scanning, push protection and private vulnerability reporting
+      are enabled (they were enabled during the public review; these APIs are currently unavailable for
+      this private repository)
 - [x] Current files and all 9 reachable commits scanned: no detected secrets beyond reviewed SHA fingerprints
 - [x] No raw competition data or model checkpoints found among tracked files/history
 - [x] Model loaders reject outdated PyTorch, unrestricted pickle and paths outside the model bundle
@@ -16,7 +20,8 @@ reproducibility; they are not evidence of a credential leak.
 - [x] Static analysis: no medium/high findings; security regression tests pass
 - [x] Repeatable release scanner, read-only CI workflow and dependency-update configuration added
 - [ ] Restricted-loading notebook verified on Kaggle GPU with real inputs and output parity
-- [ ] This security change merged into the public default branch and its CI run confirmed
+- [x] Security fix merged into `main` via [PR #1](https://github.com/YamauchiYudai/biohub-cell-tracking-solution/pull/1);
+      both pre-merge GitHub CI runs passed (107 tests plus security scans)
 
 The historical notebook contains unsafe legacy model-loading paths and is provided for archival inspection.
 For new runs use `python scripts/prepare_safe_notebook.py`, with reviewed inputs in an isolated Kaggle
