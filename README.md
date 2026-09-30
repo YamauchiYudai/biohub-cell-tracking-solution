@@ -225,5 +225,3 @@ This solution stands on public work shared during the competition:
 - **Reyhan Ksatria** - the 0.947 post-processing pipeline (motion relink, gap closing, safe division, DeepCenter veto).
 - **pilkwang** - pretrained TemporalUNet3D detectors, association Transformer and DeepCenter model.
 - **royerlab / the organisers** - the competition, the official metric (`tracking_cellmot`) and the baseline.
-
-Development used AI coding assistants; design decisions, validation and results are the team's own.
